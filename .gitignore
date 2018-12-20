@@ -1,0 +1,10 @@
+linker.txt
+*.o
+*.dll
+*.exe
+
+Makefile.win
+
+*.layout
+*.gch
+*.cppcheck
