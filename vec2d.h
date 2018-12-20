@@ -1,6 +1,7 @@
 #ifndef VEC2D_H
 #define VEC2D_H
 #include <cmath>
+#include <iostream>
 //
 namespace Iderwok {
 
@@ -25,6 +26,11 @@ class Vec2d {
 		T1 get_magnitude();
 		
 		T1 length() const;
+		int angle()  { 
+			double radangl = acos(y_/magn_);
+			angle_ = static_cast<int>(radangl/(m_PI/180.0));
+			return angle_;
+			}
 		T1 xVal() const { return x_;}
 		T1 yVal() const { return y_;}
 		void set_xVal(T1 val) { x_ = val;}
@@ -37,7 +43,7 @@ template <typename T1>
 void Vec2d<T1>::calc_hyp_a(){
 	magn_ = sqrt(x_*x_ + y_*y_);
 	double radangl = acos(y_/magn_);
-	angle_ = static_cast<int>(radangl/(PI/180.0));
+	angle_ = static_cast<int>(radangl/(m_PI/180.0));
 	
 }
 template <typename T1> 
@@ -79,7 +85,7 @@ template <typename T1>
 Vec2d<T1>& Vec2d<T1>::operator+=(const Vec2d<T1>& other) {
 	this->x_ += other.x_;
 	this->y_ += other.y_;
-	//this->calc_hyp_a();
+	this->calc_hyp_a();
 	return *this;
 }
 template <typename T1>
@@ -92,7 +98,7 @@ template <typename T1>
 Vec2d<T1>& Vec2d<T1>::operator-=(const Vec2d<T1>& other) {
 	this->x_ -= other.x_;
 	this->y_ -= other.y_;
-	//this->calc_hyp_a();
+	this->calc_hyp_a();
 	return *this;
 }
 template <typename T1>
@@ -110,6 +116,11 @@ template <typename T1>
  T1 angle_deg(const Vec2d<T1>& v1, const Vec2d<T1>& v2) {
  		return angle_rad(v1, v2)*(180.0/m_PI);
  }
+ template <typename T1> 
+ std::ostream& operator <<(std::ostream& o,  Vec2d<T1>& v) {
+ 	o << "[" << v.xVal() << ", " << v.yVal() << "] (" << v.length() << ", " << v.angle() << ")";
+ 	return o;
+}
  
 }//namespace
 
